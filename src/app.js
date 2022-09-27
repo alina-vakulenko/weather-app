@@ -44,6 +44,15 @@ function displayWeatherConditions(responce) {
     responce.data.main.temp
   );
   document.querySelector("#celsius").classList.add("scale");
+  document
+    .querySelector("#icon")
+    .setAttribute(
+      "src",
+      `http://openweathermap.org/img/wn/${responce.data.weather[0].icon}@2x.png`
+    );
+  document
+    .querySelector("#icon")
+    .setAttribute("alt", responce.data.weather[0].description);
   document.querySelector("#description").innerHTML =
     responce.data.weather[0].description;
   document.querySelector("#wind").innerHTML = `${Math.round(

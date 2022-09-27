@@ -101,8 +101,13 @@ i {
   height: 100px;
 }
 .weather-data {
-  padding-top: 5px;
+  padding-top: 10px;
   padding-bottom: 10px;
+}
+.description {
+  position: relative;
+  top: -25px;
+  text-transform: capitalize;
 }
 .current-city,
 .date-time {
@@ -116,6 +121,12 @@ i {
   font-size: 36px;
   font-weight: 600;
   opacity: 0.8;
+}
+.icon {
+  display: block;
+  margin: 0 auto;
+  width: 100px;
+  padding: 0;
 }
 .units {
   font-size: 16px;
@@ -135,7 +146,6 @@ i {
   text-decoration: underline;
   color: rgb(26, 105, 251);
 }
-
 .forecast-icon {
   font-size: 24px;
 }
