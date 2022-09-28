@@ -15,6 +15,12 @@ ul {
 i {
   opacity: 0.8;
 }
+a {
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
 .card {
   margin: 100px auto 0 auto;
   max-width: 50%;
@@ -134,17 +140,15 @@ i {
   position: relative;
   top: -16px;
 }
-.units a {
-  text-decoration: none;
+
+.units .active {
   color: black;
   opacity: 0.8;
+  text-decoration: none;
 }
-.units .scale {
-  text-decoration: underline;
-}
-.units a:hover {
-  text-decoration: underline;
-  color: rgb(26, 105, 251);
+.units .active:hover {
+  cursor: default;
+  text-decoration: none;
 }
 .forecast-icon {
   font-size: 24px;

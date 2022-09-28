@@ -40,10 +40,11 @@ function displayCurrentDate() {
 }
 function displayWeatherConditions(responce) {
   document.querySelector("#current-city").innerHTML = responce.data.name;
-  document.querySelector("#current-temperature").innerHTML = Math.round(
-    responce.data.main.temp
-  );
-  document.querySelector("#celsius").classList.add("scale");
+  celsiusTemperature = responce.data.main.temp;
+  document.querySelector("#current-temperature").innerHTML =
+    Math.round(celsiusTemperature);
+  celsiusLink.classList.add("active");
+  fahrenheitLink.classList.remove("active");
   document
     .querySelector("#icon")
     .setAttribute(
@@ -73,10 +74,6 @@ function handleSubmit(event) {
   let city = document.querySelector("#input-field").value;
   searchCity(city);
 }
-function createSearchEngine() {
-  let searchForm = document.querySelector("#search-form");
-  searchForm.addEventListener("submit", handleSubmit);
-}
 function searchLocation(position) {
   let latitude = position.coords.latitude;
   let longitude = position.coords.longitude;
@@ -89,12 +86,6 @@ function searchCurrentPosition(event) {
   event.preventDefault();
   navigator.geolocation.getCurrentPosition(searchLocation);
 }
-function activateCurrentLocationButton() {
-  let currentLocationButton = document.querySelector(
-    "#current-location-button"
-  );
-  currentLocationButton.addEventListener("click", searchCurrentPosition);
-}
 function putCityInInput(city) {
   city.addEventListener("click", function (event) {
     event.preventDefault();
@@ -102,13 +93,31 @@ function putCityInInput(city) {
     inputCity.value = event.target.innerHTML;
   });
 }
-function chooseFromPopularCities() {
-  let popularCities = document.querySelectorAll(".city");
-  popularCities.forEach(putCityInInput);
+function displayFahrenheitTemperature(event) {
+  event.preventDefault();
+  let temperatureElement = document.querySelector("#current-temperature");
+  let fahrenheitTemperature = (celsiusTemperature * 9) / 5 + 32;
+  temperatureElement.innerHTML = Math.round(fahrenheitTemperature);
+  celsiusLink.classList.remove("active");
+  fahrenheitLink.classList.add("active");
 }
-
-searchCity("Kyiv");
+function displayCelsiusTemperature(event) {
+  event.preventDefault();
+  let temperatureElement = document.querySelector("#current-temperature");
+  temperatureElement.innerHTML = Math.round(celsiusTemperature);
+  celsiusLink.classList.add("active");
+  fahrenheitLink.classList.remove("active");
+}
+let celsiusTemperature = null;
+let searchForm = document.querySelector("#search-form");
+let currentLocationButton = document.querySelector("#current-location-button");
+let popularCities = document.querySelectorAll("#city");
+let celsiusLink = document.querySelector("#celsius");
+let fahrenheitLink = document.querySelector("#fahrenheit");
+popularCities.forEach(putCityInInput);
+searchForm.addEventListener("submit", handleSubmit);
+currentLocationButton.addEventListener("click", searchCurrentPosition);
+celsiusLink.addEventListener("click", displayCelsiusTemperature);
+fahrenheitLink.addEventListener("click", displayFahrenheitTemperature);
 displayCurrentDate();
-chooseFromPopularCities();
-createSearchEngine();
-activateCurrentLocationButton();
+searchCity("Kyiv");
