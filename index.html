@@ -40,32 +40,42 @@
                     <li class="city" id="city">Kharkiv</li>
                     <li class="city" id="city">Lviv</li>
                   </ul>
+                  <div class="col">
+                    <span class="unitsTest"
+                      ><a href="#" id="metric" class="active">metric</a>
+                      |
+                      <a href="#" id="imperial">imperial</a>
+                    </span>
+                  </div>
                 </div>
               </div>
-              <div class="row search-form">
-                <div class="col">
-                  <form id="search-form">
-                    <input
-                      type="text"
-                      placeholder="Enter a city"
-                      class="input-field"
-                      id="input-field"
-                    />
-                    <input
-                      type="submit"
-                      value="Search"
-                      class="search-button"
-                      id="search-button"
-                    />
-                    <button
-                      class="current-location-button"
-                      id="current-location-button"
-                    >
-                      Current
-                    </button>
-                  </form>
+              <div class="search-form">
+                <div class="row">
+                  <div class="col">
+                    <form id="search-form">
+                      <input
+                        type="text"
+                        placeholder="Enter a city"
+                        class="input-field"
+                        id="input-field"
+                      />
+                      <input
+                        type="submit"
+                        value="Search"
+                        class="search-button"
+                        id="search-button"
+                      />
+                      <button
+                        class="current-location-button"
+                        id="current-location-button"
+                      >
+                        Current
+                      </button>
+                    </form>
+                  </div>
                 </div>
               </div>
+
               <div class="row">
                 <div class="col-6 weather-data">
                   <div class="row">
@@ -78,12 +88,7 @@
                     </div>
                     <div class="col temperature">
                       <i class="fa-solid fa-temperature-three-quarters"></i
-                      ><span id="current-temperature"></span
-                      ><span class="units"
-                        ><a href="#" id="celsius" class="active">℃</a>
-                        |
-                        <a href="#" id="fahrenheit">℉</a>
-                      </span>
+                      ><span id="current-temperature"></span>
                     </div>
                   </div>
                 </div>
