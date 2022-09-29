@@ -1,5 +1,4 @@
 function formatDate() {
-  let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   let months = [
     "Jan",
     "Feb",
@@ -38,6 +37,33 @@ function displayCurrentDate() {
   date.innerHTML = formatDate().date;
   dayAndTime.innerHTML = `${formatDate().dayName} ${formatDate().time}`;
 }
+function displayForecast(responce) {
+  let forecast = document.querySelector("#forecast");
+  let forecastHTML = "";
+  forecastDays.forEach(function (day) {
+    forecastHTML =
+      forecastHTML +
+      `
+   <div class="col">
+      <div class="forecast-day">
+        <strong>${day}</strong>
+        <img src="http://openweathermap.org/img/wn/02d@2x.png" alt="forecast-icon" class="forecast-icon" id="forecast-icon" />
+        <div clas="forecast-temp-max" id="forecast-temp-max">21°</div>
+        <div class="forecast-temp-min" id="forecast-temp-min">18°</div>
+      </div>
+    </div>
+      `;
+  });
+  forecastHTML = `<div class="row">` + forecastHTML + `</div>`;
+  forecast.innerHTML = forecastHTML;
+  console.log(responce.data.daily);
+}
+function getForecast(coordinates) {
+  let apiKey = "b35c686ba9565ba0ab254c2230937552";
+  let units = "metric";
+  let apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${coordinates.lat}&lon=${coordinates.lon}&units=${units}&appid=${apiKey}`;
+  axios.get(apiUrl).then(displayForecast);
+}
 function displayWeatherConditions(responce) {
   document.querySelector("#current-city").innerHTML = responce.data.name;
   celsiusTemperature = responce.data.main.temp;
@@ -62,6 +88,7 @@ function displayWeatherConditions(responce) {
   document.querySelector(
     "#humidity"
   ).innerHTML = `${responce.data.main.humidity} %`;
+  getForecast(responce.data.coord);
 }
 function searchCity(city) {
   let apiKey = "7d478f69e1b2f5d563653f13f5f91d76";
@@ -108,6 +135,9 @@ function displayCelsiusTemperature(event) {
   celsiusLink.classList.add("active");
   fahrenheitLink.classList.remove("active");
 }
+
+let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+let forecastDays = ["Tue", "Wed", "Thu", "Fri", "Sat"];
 let celsiusTemperature = null;
 let searchForm = document.querySelector("#search-form");
 let currentLocationButton = document.querySelector("#current-location-button");
