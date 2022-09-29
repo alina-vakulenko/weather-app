@@ -31,6 +31,11 @@ function formatDate() {
     time: `${hours}:${minutes}`,
   };
 }
+function formatTimestamp(timestamp) {
+  let date = new Date(timestamp * 1000);
+  let day = days[date.getDay()];
+  return day;
+}
 function displayCurrentDate() {
   let date = document.querySelector("#date");
   let dayAndTime = document.querySelector("#day-and-time");
@@ -38,25 +43,32 @@ function displayCurrentDate() {
   dayAndTime.innerHTML = `${formatDate().dayName} ${formatDate().time}`;
 }
 function displayForecast(responce) {
-  let forecast = document.querySelector("#forecast");
+  let forecastElement = document.querySelector("#forecast");
   let forecastHTML = "";
-  forecastDays.forEach(function (day) {
-    forecastHTML =
-      forecastHTML +
-      `
+  let dailyForecast = responce.data.daily;
+  dailyForecast.forEach(function (forecastDay, index) {
+    if (index > 5) {
+      return;
+    }
+    forecastHTML += `
    <div class="col">
       <div class="forecast-day">
-        <strong>${day}</strong>
-        <img src="http://openweathermap.org/img/wn/02d@2x.png" alt="forecast-icon" class="forecast-icon" id="forecast-icon" />
-        <div clas="forecast-temp-max" id="forecast-temp-max">21°</div>
-        <div class="forecast-temp-min" id="forecast-temp-min">18°</div>
+        <strong>${formatTimestamp(forecastDay.dt)}</strong>
+        <img src="http://openweathermap.org/img/wn/${
+          forecastDay.weather[0].icon
+        }@2x.png" alt="forecast-icon" class="forecast-icon" id="forecast-icon" />
+        <div clas="forecast-temp-max" id="forecast-temp-max">${Math.round(
+          forecastDay.temp.max
+        )}°</div>
+        <div class="forecast-temp-min" id="forecast-temp-min">${Math.round(
+          forecastDay.temp.min
+        )}°</div>
       </div>
     </div>
       `;
   });
   forecastHTML = `<div class="row">` + forecastHTML + `</div>`;
-  forecast.innerHTML = forecastHTML;
-  console.log(responce.data.daily);
+  forecastElement.innerHTML = forecastHTML;
 }
 function getForecast(coordinates) {
   let apiKey = "b35c686ba9565ba0ab254c2230937552";
@@ -137,7 +149,6 @@ function displayCelsiusTemperature(event) {
 }
 
 let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-let forecastDays = ["Tue", "Wed", "Thu", "Fri", "Sat"];
 let celsiusTemperature = null;
 let searchForm = document.querySelector("#search-form");
 let currentLocationButton = document.querySelector("#current-location-button");
