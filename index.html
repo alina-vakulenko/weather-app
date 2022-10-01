@@ -30,23 +30,21 @@
           Weather forecast
         </div>
         <div class="card-body">
-          <div class="row top-row">
-            <div class="col top-row-container">
+          <section class="row top-block">
+            <div class="col top-block-container">
               <div class="row">
-                <div class="col">
+                <div class="col-8">
                   <ul>
                     <li class="city" id="city">Dnipro</li>
                     <li class="city" id="city">Kyiv</li>
                     <li class="city" id="city">Kharkiv</li>
                     <li class="city" id="city">Lviv</li>
                   </ul>
-                  <div class="col">
-                    <span class="unitsTest"
-                      ><a href="#" id="metric" class="active">metric</a>
-                      |
-                      <a href="#" id="imperial">imperial</a>
-                    </span>
-                  </div>
+                </div>
+                <div class="col-4 unitsChoice">
+                  <a href="#" id="metric" class="active">metric</a>
+                  |
+                  <span><a href="#" id="imperial">imperial</a></span>
                 </div>
               </div>
               <div class="search-form">
@@ -83,8 +81,8 @@
                   </div>
                   <div class="row">
                     <div class="col date-time">
-                      <div class="" id="date"></div>
-                      <div class="" id="day-and-time"></div>
+                      <div id="date"></div>
+                      <div id="day-and-time"></div>
                     </div>
                     <div class="col temperature">
                       <i class="fa-solid fa-temperature-three-quarters"></i
@@ -99,16 +97,16 @@
                   <div class="p-2 description" id="description"></div>
                 </div>
                 <div
-                  class="col-3 d-flex flex-column justify-content-center conditions"
+                  class="col-3 d-flex flex-column justify-content-center weather-conditions"
                 >
                   <div class="p-2">Humidity: <span id="humidity"></span></div>
                   <div class="p-2">Wind: <span id="wind"></span></div>
                 </div>
               </div>
             </div>
-          </div>
+          </section>
           <hr />
-          <div id="forecast"></div>
+          <section id="forecast"></section>
         </div>
       </div>
       <div class="author">

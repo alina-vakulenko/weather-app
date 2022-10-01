@@ -1,47 +1,3 @@
-function formatDate() {
-  let months = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
-  ];
-  let currentTime = new Date();
-  let dayName = days[currentTime.getDay()];
-  let hours = currentTime.getHours();
-  if (hours < 10) {
-    hours = `0${hours}`;
-  }
-  let minutes = currentTime.getMinutes();
-  if (minutes < 10) {
-    minutes = `0${minutes}`;
-  }
-  let month = months[currentTime.getMonth()];
-  let dayNumber = currentTime.getDate();
-  return {
-    date: `${month} ${dayNumber}`,
-    dayName: dayName,
-    time: `${hours}:${minutes}`,
-  };
-}
-function formatTimestamp(timestamp) {
-  let date = new Date(timestamp * 1000);
-  let day = days[date.getDay()];
-  return day;
-}
-function displayCurrentDate() {
-  let date = document.querySelector("#date");
-  let dayAndTime = document.querySelector("#day-and-time");
-  date.innerHTML = formatDate().date;
-  dayAndTime.innerHTML = `${formatDate().dayName} ${formatDate().time}`;
-}
 function getUnit() {
   let unit = "metric";
   let imperialLink = document.querySelector("#imperial");
@@ -49,6 +5,40 @@ function getUnit() {
     unit = "imperial";
   }
   return unit;
+}
+function formatDate(timezone) {
+  let currentTime = new Date();
+  let localTime = currentTime.getTime();
+  let localOffset = currentTime.getTimezoneOffset() * 60000;
+  let localCityTime = new Date(localTime + localOffset + 1000 * timezone);
+  let day = days[localCityTime.getDay()];
+  let hours = localCityTime.getHours();
+  if (hours < 10) {
+    hours = `0${hours}`;
+  }
+  let minutes = localCityTime.getMinutes();
+  if (minutes < 10) {
+    minutes = `0${minutes}`;
+  }
+  let month = months[localCityTime.getMonth()];
+  let dayNumber = localCityTime.getDate();
+  return {
+    date: `${month} ${dayNumber}`,
+    dayName: day,
+    time: `${hours}:${minutes}`,
+  };
+}
+function formatTimestamp(timestamp) {
+  let currentTime = new Date(timestamp * 1000);
+  let day = days[currentTime.getDay()];
+  return day;
+}
+function displayCurrentDate(timezone) {
+  let date = document.querySelector("#date");
+  let dayAndTime = document.querySelector("#day-and-time");
+  let formattedDate = formatDate(timezone);
+  date.innerHTML = formattedDate.date;
+  dayAndTime.innerHTML = `${formattedDate.dayName} ${formattedDate.time}`;
 }
 function displayForecast(responce) {
   let forecastElement = document.querySelector("#forecast");
@@ -88,9 +78,7 @@ function displayWeatherConditions(responce) {
   document.querySelector("#current-city").innerHTML = responce.data.name;
   document.querySelector("#current-temperature").innerHTML = `${Math.round(
     responce.data.main.temp
-  )}<span class="units">${unitMeasure[getUnit()].temp}</span>`;
-  // celsiusLink.classList.add("active");
-  // fahrenheitLink.classList.remove("active");
+  )}<span class="unit">${unitMeasure[getUnit()].temp}</span>`;
   document
     .querySelector("#icon")
     .setAttribute(
@@ -108,6 +96,7 @@ function displayWeatherConditions(responce) {
   document.querySelector(
     "#humidity"
   ).innerHTML = `${responce.data.main.humidity} %`;
+  displayCurrentDate(responce.data.timezone);
   getForecast(responce.data.coord);
 }
 function searchCity(city) {
@@ -144,59 +133,46 @@ function putCityInInput(city) {
     inputCity.value = event.target.innerHTML;
   });
 }
-// function displayFahrenheitTemperature(event) {
-//   event.preventDefault();
-//   let temperatureElement = document.querySelector("#current-temperature");
-//   let fahrenheitTemperature = (celsiusTemperature * 9) / 5 + 32;
-//   temperatureElement.innerHTML = Math.round(fahrenheitTemperature);
-//   celsiusLink.classList.remove("active");
-//   fahrenheitLink.classList.add("active");
-// }
-// function displayCelsiusTemperature(event) {
-//   event.preventDefault();
-//   let temperatureElement = document.querySelector("#current-temperature");
-//   temperatureElement.innerHTML = Math.round(celsiusTemperature);
-//   celsiusLink.classList.add("active");
-//   fahrenheitLink.classList.remove("active");
-// }
-
+function switchToMetric() {
+  metricLink.classList.add("active");
+  imperialLink.classList.remove("active");
+  let city = document.querySelector("#current-city").innerHTML;
+  searchCity(city);
+}
+function switchToImperial() {
+  metricLink.classList.remove("active");
+  imperialLink.classList.add("active");
+  let city = document.querySelector("#current-city").innerHTML;
+  searchCity(city);
+}
 let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+let months = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
+];
 let defaultCity = "Kyiv";
 let unitMeasure = {
   metric: { windSpeed: "meter/sec", temp: "℃" },
   imperial: { windSpeed: "miles/hour", temp: "℉" },
 };
-// let celsiusTemperature = null;
 let searchForm = document.querySelector("#search-form");
 let currentLocationButton = document.querySelector("#current-location-button");
 let popularCities = document.querySelectorAll("#city");
-// let celsiusLink = document.querySelector("#celsius");
-// let fahrenheitLink = document.querySelector("#fahrenheit");
 let metricLink = document.querySelector("#metric");
 let imperialLink = document.querySelector("#imperial");
 popularCities.forEach(putCityInInput);
 searchForm.addEventListener("submit", handleSubmit);
 currentLocationButton.addEventListener("click", searchCurrentPosition);
-// celsiusLink.addEventListener("click", displayCelsiusTemperature);
-// fahrenheitLink.addEventListener("click", displayFahrenheitTemperature);
-
-metricLink.addEventListener("click", function () {
-  metricLink.classList.add("active");
-  imperialLink.classList.remove("active");
-  let city = document.querySelector("#input-field").value;
-  if (city === "") {
-    city = defaultCity;
-  }
-  searchCity(city);
-});
-imperialLink.addEventListener("click", function () {
-  metricLink.classList.remove("active");
-  imperialLink.classList.add("active");
-  let city = document.querySelector("#input-field").value;
-  if (city === "") {
-    city = defaultCity;
-  }
-  searchCity(city);
-});
-displayCurrentDate();
+metricLink.addEventListener("click", switchToMetric);
+imperialLink.addEventListener("click", switchToImperial);
 searchCity(defaultCity);

@@ -44,13 +44,13 @@ a:hover {
   background: #b7dfff;
   padding: 10px;
 }
-.top-row {
+.top-block {
   margin: 0;
   background-color: rgba(32, 132, 213, 0.2);
   border-radius: 10px;
   box-shadow: 3px 3px 8px rgba(15, 15, 139, 0.4);
 }
-.top-row-container {
+.top-block-container {
   padding: 5px 15px;
 }
 .city {
@@ -58,6 +58,7 @@ a:hover {
   padding-right: 25px;
   color: black;
   opacity: 0.8;
+  font-size: 12px;
 }
 .city:hover {
   font-weight: 900;
@@ -67,7 +68,6 @@ a:hover {
   line-height: 30px;
 }
 .input-field {
-  display: inline;
   width: 300px;
   margin-right: 10px;
   max-width: 100%;
@@ -105,7 +105,7 @@ a:hover {
 }
 .weather-data,
 .weather-description,
-.conditionss {
+.weather-conditionss {
   height: 100px;
 }
 .weather-data {
@@ -130,47 +130,43 @@ a:hover {
   font-weight: 600;
   opacity: 0.8;
 }
-.icon {
-  display: block;
-  margin: 0 auto;
-  width: 100px;
-  padding: 0;
-}
-.units {
+
+.unit {
   font-size: 16px;
   font-weight: 600;
   position: relative;
   top: -16px;
 }
-
-.units .active {
+.unitsChoice {
+  text-align: end;
+  font-size: 12px;
+}
+.unitsChoice .active {
   color: black;
   opacity: 0.8;
   text-decoration: none;
 }
-.units .active:hover {
+.unitsChoice .active:hover {
   cursor: default;
   text-decoration: none;
 }
-
-.unitsTest .active {
-  color: black;
-  opacity: 0.8;
-  text-decoration: none;
+.icon {
+  width: 100px;
+  display: block;
+  margin: 0 auto;
+  padding: 0;
 }
-.unitsTest .active:hover {
-  cursor: default;
-  text-decoration: none;
-}
-.weather-description,
-.conditions {
-  text-align: center;
+.description,
+.weather-conditions {
   font-family: "Merriweather", serif;
   opacity: 0.8;
-  padding-left: 0;
-  padding-right: 0;
+  font-size: 12px;
+  padding: 0;
 }
-.conditions {
+.description {
+  text-align: center;
+}
+.weather-conditions {
   text-align: left;
 }
 .forecast-day {
@@ -186,12 +182,12 @@ a:hover {
   width: 36px;
 }
 .forecast-temp-min {
-  opacity: 0.65;
+  opacity: 0.7;
 }
 .author {
   text-align: center;
-  margin-top: 10px;
+  margin-top: 5 px;
   font-family: "Roboto Mono", monospace;
-  font-size: 12px;
+  font-size: 10px;
   opacity: 0.8;
 }
